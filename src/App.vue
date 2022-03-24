@@ -15,7 +15,7 @@
     <div>
       <div>
         <div>
-          <h4>Modify Grid</h4>
+          <h4>Grid</h4>
           <label for="width">cols</label>
           <input type="number" id="width" v-model="columns" />
           <label for="length">rows</label>
@@ -26,7 +26,6 @@
           <div :style="{ color: this.isvalid ? 'green' : 'red' }">
             ({{ x }}, {{ y }}), {{ orientation }}
             {{ valid }}
-            {{ columnArray }}
           </div>
         </div>
         <h4>Commands</h4>
