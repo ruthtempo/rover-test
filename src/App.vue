@@ -16,8 +16,9 @@
       <div>
         <div>
           <h4>current position</h4>
-          <div>
-            ({{ x }}, {{ y }}), {{ orientation }} valid? : {{ isvalid }}
+          <div :style="{ color: this.isvalid ? 'green' : 'red' }">
+            ({{ x }}, {{ y }}), {{ orientation }}
+            {{ isvalid }}
           </div>
         </div>
         <h4>Commands</h4>
@@ -104,7 +105,7 @@ export default {
     },
     createGrid() {
       for (let i = 0; i < 10; i++) {
-        this.rows.push(i);
+        this.rows.push(9 - i);
         this.columns.push(i);
       }
     },
