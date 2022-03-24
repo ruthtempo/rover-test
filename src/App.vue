@@ -17,7 +17,7 @@
         <div>
           <h4>current position</h4>
           <div>
-            ({{ typeof x }}, {{ y }}), {{ orientation }} valid? : {{ isvalid }}
+            ({{ x }}, {{ y }}), {{ orientation }} valid? : {{ isvalid }}
           </div>
         </div>
         <h4>Commands</h4>
@@ -26,22 +26,6 @@
           <li>R : turn right</li>
           <li>A : move foward</li>
         </ul>
-      </div>
-      <div
-        style="display: flex; flex-direction: column; max-width:100px; column; margin: 10px"
-      >
-        <h4>Enter Coordinates</h4>
-        <label for="x"> x</label>
-        <input type="number" id="x" placeholder="enter number" v-model="x" />
-        <label for="y">y</label>
-        <input type="number" id="y" placeholder="enter number" v-model="y" />
-        <label for="coord">Orientation</label>
-        <input
-          type="text"
-          id="coord"
-          placeholder="N, S, W or E"
-          v-model="orientation"
-        />
       </div>
       <input type="text" placeholder="enter command" v-model="input" />
 
