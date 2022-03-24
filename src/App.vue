@@ -3,9 +3,9 @@
   <div id="app">
     <div>
       <table>
-        <tr v-for="row in rows" :key="row">
-          <td v-for="col in columns" :key="col">
-            <p v-if="x === col && y === row">
+        <tr v-for="row in rowArray" :key="row">
+          <td v-for="col in columnArray" :key="col">
+            <p v-if="parseInt(x) === col && parseInt(y) === row">
               ({{ x }}, {{ y }}), {{ orientation }}
             </p>
           </td>
@@ -15,10 +15,18 @@
     <div>
       <div>
         <div>
+          <h4>Modify Grid</h4>
+          <label for="width">cols</label>
+          <input type="number" id="width" v-model="columns" />
+          <label for="length">rows</label>
+          <input type="number" id="length" v-model="rows" />
+        </div>
+        <div>
           <h4>current position</h4>
           <div :style="{ color: this.isvalid ? 'green' : 'red' }">
             ({{ x }}, {{ y }}), {{ orientation }}
-            {{ isvalid }}
+            {{ valid }}
+            {{ columnArray }}
           </div>
         </div>
         <h4>Commands</h4>
@@ -28,6 +36,18 @@
           <li>A : move foward</li>
         </ul>
       </div>
+      <h4>Enter Coordinates</h4>
+      <label for="x"> x</label>
+      <input type="number" id="x" placeholder="enter number" v-model="x" />
+      <label for="y">y</label>
+      <input type="number" id="y" placeholder="enter number" v-model="y" />
+      <label for="coord">Orientation</label>
+      <input
+        type="text"
+        id="coord"
+        placeholder="N, S, W or E"
+        v-model="orientation"
+      />
       <input type="text" placeholder="enter command" v-model="input" />
 
       <button @click="move(input)">click</button>
@@ -38,21 +58,53 @@
 export default {
   data() {
     return {
-      columns: [],
-      rows: [],
+      columns: 6,
+      rows: 5,
       orientation: "N",
       x: 1,
-      y: 2,
+      y: 1,
       isvalid: true,
       input: "",
+      dynamicrows: [],
+      dynamiccolumns: [],
     };
   },
-  created: function () {
-    this.createGrid();
+  computed: {
+    columnArray: function () {
+      this.dynamiccolumns = [];
+      for (let i = 0; i < this.columns; i++) {
+        this.dynamiccolumns.push(i);
+      }
+      return this.dynamiccolumns;
+    },
+    rowArray: function () {
+      this.dynamicrows = [];
+      for (let j = 0; j < this.rows; j++) {
+        this.dynamicrows.push(j);
+      }
+      return this.dynamicrows;
+    },
+    valid: function () {
+      if (
+        this.x > this.columns - 1 ||
+        this.x < 0 ||
+        this.y > this.rows - 1 ||
+        this.y < 0
+      ) {
+        return (this.isvalid = false);
+      } else {
+        return (this.isvalid = true);
+      }
+    },
   },
   methods: {
     checkIfValid() {
-      if (this.x > 10 || this.x < 0 || this.y > 10 || this.y < 0) {
+      if (
+        this.x > this.columns - 1 ||
+        this.x < 0 ||
+        this.y > this.rows - 1 ||
+        this.y < 0
+      ) {
         this.isvalid = false;
       } else {
         this.isvalid = true;
@@ -68,7 +120,7 @@ export default {
           this.turnRight();
         }
       });
-      this.checkIfValid();
+      // this.checkIfValid();
     },
     turnLeft() {
       if (this.orientation === "N") {
@@ -101,16 +153,6 @@ export default {
         this.x = this.x + 1;
       } else if (this.orientation === "W") {
         this.x = this.x - 1;
-      }
-    },
-    createGrid() {
-      for (let i = 0; i < 10; i++) {
-        this.rows.push(9 - i);
-        this.columns.push(i);
-      }
-    },
-    locateRover() {
-      if (this.column === this.x && this.row === this.z) {
       }
     },
   },
